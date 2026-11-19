@@ -59,6 +59,16 @@ These findings describe patterns in the dataset and should not be interpreted as
 - `Screenshots/` – Project execution evidence.
 - `README.md` – Project overview.
 
+## Dataset Source & Attribution
+
+**Dataset:** HR Analytics Employee Attrition & Performance
+
+**Source:** [Kaggle –  HR Analytics Employee Attrition & Performance](https://www.kaggle.com/datasets/pavansubhasht/ibm-hr-analytics-attrition-dataset)
+
+The original dataset contains fictional employee data created by data scientists and includes 1,470 employee records with 35 columns.
+
+**Additional Data:** The `employee_hire_details` and `employee_exit_details` tables were synthetically created for this project to support relational analysis and SQL joins. They are not part of the original dataset.
+
 ## Project Documentation
 The detailed project report is available in the `Documentation` folder.
 
