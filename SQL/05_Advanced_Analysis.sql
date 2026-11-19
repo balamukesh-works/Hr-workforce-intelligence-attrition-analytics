@@ -120,68 +120,99 @@ ORDER BY
     END;
 
 -- Source: PDF page 75
-WITH Employee_Indicators AS  
-   ( SELECT  EmployeeNumber, Attrition,  
-(CASE WHEN OverTime = 'Yes' THEN 1 ELSE 0 END) +     
-(CASE WHEN YearsAtCompany <= 2 THEN 1 ELSE 0 END) +     
-(CASE WHEN JobSatisfaction <= 2 THEN 1 ELSE 0 END) +     
-(CASE WHEN WorkLifeBalance = 1 THEN 1 ELSE 0 END) +     
-(CASE WHEN BusinessTravel = 'Travel_Frequently' THEN 1 ELSE 0 END)    AS Indicator_Score 
-FROM employees) 
-SELECT 'Job Role' AS Attrition_Dimension,'Sales Representative' AS Employee_Group, 
-COUNT(*) AS Total_Employees, 
-SUM(CASE WHEN Attrition = 'Yes' THEN 1 ELSE 0 END) AS Exited_Employees, 
-ROUND(SUM(CASE WHEN Attrition = 'Yes' THEN 1 ELSE 0 END) * 100.0 /  
-COUNT(*), 2) AS Attrition_Rate 
-FROM employees  
-WHERE JobRole = 'Sales Representative' 
-       UNION ALL 
-SELECT 'Work-Life Balance','Level 1',COUNT(*), 
-SUM(CASE WHEN Attrition = 'Yes' THEN 1 ELSE 0 END), 
-ROUND(SUM(CASE WHEN Attrition = 'Yes' THEN 1 ELSE 0 END) * 100.0 / COUNT(*), 2) 
-FROM employees  
-WHERE WorkLifeBalance = 1 
-       UNION ALL 
-SELECT 'Risk Segmentation','Multiple Indicators',COUNT(*), 
-SUM(CASE WHEN Attrition = 'Yes' THEN 1 ELSE 0 END), 
-ROUND(SUM(CASE WHEN Attrition = 'Yes' THEN 1 ELSE 0 END) * 100.0 / COUNT(*), 2) 
-FROM Employee_Indicators  
-WHERE Indicator_Score >= 2 
-       UNION ALL 
-SELECT 'Overtime','Yes',COUNT(*), 
-SUM(CASE WHEN Attrition = 'Yes' THEN 1 ELSE 0 END), 
-ROUND(SUM(CASE WHEN Attrition = 'Yes' THEN 1 ELSE 0 END) * 100.0 / COUNT(*), 2) 
-FROM employees  
-WHERE OverTime = 'Yes' 
-       UNION ALL 
-SELECT 'Company Tenure','0-2 Years',COUNT(*), 
-SUM(CASE WHEN Attrition = 'Yes' THEN 1 ELSE 0 END), 
-ROUND(SUM(CASE WHEN Attrition = 'Yes' THEN 1 ELSE 0 END) * 100.0 / COUNT(*), 2) 
-FROM employees  
-WHERE YearsAtCompany BETWEEN 0 AND 2 
-       UNION ALL 
-SELECT 'Salary Band','Lower Income',COUNT(*), 
-SUM(CASE WHEN Attrition = 'Yes' THEN 1 ELSE 0 END), 
-ROUND(SUM(CASE WHEN Attrition = 'Yes' THEN 1 ELSE 0 END) * 100.0 / COUNT(*), 2) 
-FROM employees  
-WHERE MonthlyIncome < 5000 
-       UNION ALL 
-SELECT 'Business Travel','Travel Frequently',COUNT(*), 
-SUM(CASE WHEN Attrition = 'Yes' THEN 1 ELSE 0 END), 
-ROUND(SUM(CASE WHEN Attrition = 'Yes' THEN 1 ELSE 0 END) * 100.0 / COUNT(*), 2) 
+WITH Employee_Indicators AS (
+    SELECT
+        EmployeeNumber,
+        Attrition,
+        (CASE WHEN OverTime = 'Yes' THEN 1 ELSE 0 END) +
+        (CASE WHEN YearsAtCompany <= 2 THEN 1 ELSE 0 END) +
+        (CASE WHEN JobSatisfaction <= 2 THEN 1 ELSE 0 END) +
+        (CASE WHEN WorkLifeBalance = 1 THEN 1 ELSE 0 END) +
+        (CASE WHEN BusinessTravel = 'Travel_Frequently' THEN 1 ELSE 0 END)
+        AS Indicator_Score
+    FROM employees
+)
 
-FROM employees  
-WHERE BusinessTravel = 'Travel_Frequently' 
-       UNION ALL 
-SELECT 'Job Satisfaction','Level 1',COUNT(*), 
-SUM(CASE WHEN Attrition = 'Yes' THEN 1 ELSE 0 END), 
-ROUND(SUM(CASE WHEN Attrition = 'Yes' THEN 1 ELSE 0 END) * 100.0 / COUNT(*), 2) 
-FROM employees  
-WHERE JobSatisfaction = 1 
-       UNION ALL 
-SELECT 'Department','Sales',COUNT(*), 
-SUM(CASE WHEN Attrition = 'Yes' THEN 1 ELSE 0 END), 
-ROUND(SUM(CASE WHEN Attrition = 'Yes' THEN 1 ELSE 0 END) * 100.0 / COUNT(*), 2) 
-FROM employees  
+SELECT
+    'Risk Segmentation' AS Attrition_Dimension,
+    'Multiple Indicators' AS Employee_Group,
+    COUNT(*) AS Total_Employees,
+    SUM(CASE WHEN Attrition = 'Yes' THEN 1 ELSE 0 END) AS Exited_Employees,
+    ROUND(
+        SUM(CASE WHEN Attrition = 'Yes' THEN 1 ELSE 0 END) * 100.0 / COUNT(*),
+        2
+    ) AS Attrition_Rate
+FROM Employee_Indicators
+WHERE Indicator_Score >= 2
+
+UNION ALL
+
+SELECT
+    'Job Role', 'Sales Representative', COUNT(*),
+    SUM(CASE WHEN Attrition = 'Yes' THEN 1 ELSE 0 END),
+    ROUND(SUM(CASE WHEN Attrition = 'Yes' THEN 1 ELSE 0 END) * 100.0 / COUNT(*), 2)
+FROM employees
+WHERE JobRole = 'Sales Representative'
+
+UNION ALL
+
+SELECT
+    'Work-Life Balance', 'Level 1', COUNT(*),
+    SUM(CASE WHEN Attrition = 'Yes' THEN 1 ELSE 0 END),
+    ROUND(SUM(CASE WHEN Attrition = 'Yes' THEN 1 ELSE 0 END) * 100.0 / COUNT(*), 2)
+FROM employees
+WHERE WorkLifeBalance = 1
+
+UNION ALL
+
+SELECT
+    'Overtime', 'Yes', COUNT(*),
+    SUM(CASE WHEN Attrition = 'Yes' THEN 1 ELSE 0 END),
+    ROUND(SUM(CASE WHEN Attrition = 'Yes' THEN 1 ELSE 0 END) * 100.0 / COUNT(*), 2)
+FROM employees
+WHERE OverTime = 'Yes'
+
+UNION ALL
+
+SELECT
+    'Company Tenure', '0-2 Years', COUNT(*),
+    SUM(CASE WHEN Attrition = 'Yes' THEN 1 ELSE 0 END),
+    ROUND(SUM(CASE WHEN Attrition = 'Yes' THEN 1 ELSE 0 END) * 100.0 / COUNT(*), 2)
+FROM employees
+WHERE YearsAtCompany BETWEEN 0 AND 2
+
+UNION ALL
+
+SELECT
+    'Salary Band', 'Lower Income', COUNT(*),
+    SUM(CASE WHEN Attrition = 'Yes' THEN 1 ELSE 0 END),
+    ROUND(SUM(CASE WHEN Attrition = 'Yes' THEN 1 ELSE 0 END) * 100.0 / COUNT(*), 2)
+FROM employees
+WHERE MonthlyIncome < 5000
+
+UNION ALL
+
+SELECT
+    'Business Travel', 'Travel Frequently', COUNT(*),
+    SUM(CASE WHEN Attrition = 'Yes' THEN 1 ELSE 0 END),
+    ROUND(SUM(CASE WHEN Attrition = 'Yes' THEN 1 ELSE 0 END) * 100.0 / COUNT(*), 2)
+FROM employees
+WHERE BusinessTravel = 'Travel_Frequently'
+
+UNION ALL
+
+SELECT
+    'Job Satisfaction', 'Level 1', COUNT(*),
+    SUM(CASE WHEN Attrition = 'Yes' THEN 1 ELSE 0 END),
+    ROUND(SUM(CASE WHEN Attrition = 'Yes' THEN 1 ELSE 0 END) * 100.0 / COUNT(*), 2)
+FROM employees
+WHERE JobSatisfaction = 1
+
+UNION ALL
+
+SELECT
+    'Department', 'Sales', COUNT(*),
+    SUM(CASE WHEN Attrition = 'Yes' THEN 1 ELSE 0 END),
+    ROUND(SUM(CASE WHEN Attrition = 'Yes' THEN 1 ELSE 0 END) * 100.0 / COUNT(*), 2)
+FROM employees
 WHERE Department = 'Sales';
-
