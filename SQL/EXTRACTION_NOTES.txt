@@ -1,0 +1,8 @@
+SQL extraction notes
+====================
+
+52 distinct SQL statement/procedure blocks were extracted from the PDF text layer.
+The PDF does not display the SQL for every analysis subsection. Those missing queries are intentionally not fabricated.
+The first file contains DESCRIBE statements only; the PDF does not provide the full database/table creation script.
+Before publishing, run and validate each query in MySQL Workbench against the hr_analytics schema.
+The employee_hire_details and employee_exit_details tables contain synthetic supporting dates/reasons; clearly label these as synthetic in the README.
