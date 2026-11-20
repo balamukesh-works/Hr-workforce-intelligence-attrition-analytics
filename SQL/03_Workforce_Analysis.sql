@@ -1,3 +1,4 @@
+
 -- HR Workforce Intelligence & Attrition Analytics
 -- SQL transcribed from the final project documentation PDF.
 -- Review and test each statement in MySQL Workbench before committing.
@@ -6,7 +7,8 @@
 
 USE hr_analytics;
 
--- Source: PDF page 17
+-- Section: Overall Workforce Summary
+-- Documentation Reference: PDF Page 17
 SELECT COUNT(*) AS Total_Employees, 
      SUM(CASE WHEN Attrition = 'No' THEN 1 ELSE 0 END) AS Active_Employees, 
      SUM(CASE WHEN Attrition = 'Yes' THEN 1 ELSE 0 END) AS Exited_Employees, 
@@ -14,7 +16,8 @@ SELECT COUNT(*) AS Total_Employees,
 Overall_Attrition_Rate  
 FROM employees;
 
--- Source: PDF page 18
+-- Section: Job Role-wise Workforce Distribution
+-- Documentation Reference: PDF Page 18
 SELECT JobRole,COUNT(*) AS Total_Employees, 
 ROUND( COUNT(*) * 100.0 /  
 (SELECT COUNT(*) FROM employees), 2) AS Workforce_Percentage 
@@ -22,7 +25,8 @@ FROM employees
 GROUP BY JobRole  
 ORDER BY Total_Employees DESC;
 
--- Source: PDF page 19
+-- Section: Age Group-wise Workforce Distribution
+-- Documentation Reference: PDF Page 19
 SELECT CASE     
 WHEN Age < 25 THEN 'Under 25'    
 WHEN Age BETWEEN 25 AND 34 THEN '25-34'    
@@ -36,7 +40,8 @@ FROM employees
 GROUP BY Age_Group  
 ORDER BY MIN(Age);
 
--- Source: PDF page 20
+-- Section: Gender-wise Workforce Distribution
+-- Documentation Reference: PDF Page 20
 SELECT Gender, 
 COUNT(*) AS Total_Employees, 
 ROUND(    COUNT(*) * 100.0 /  
@@ -47,7 +52,8 @@ FROM employees
 GROUP BY Gender  
 ORDER BY Total_Employees DESC;
 
--- Source: PDF page 22
+-- Section: Education Field-wise Workforce Distribution
+-- Documentation Reference: PDF Page 22
 SELECT EducationField, 
 COUNT(*) AS Total_Employees, 
 ROUND(COUNT(*) * 100.0 /  
@@ -57,7 +63,8 @@ FROM employees
 GROUP BY EducationField  
 ORDER BY Total_Employees DESC;
 
--- Source: PDF page 24
+-- Section: Years at Company-wise Workforce Distribution
+-- Documentation Reference: PDF Page 24
 SELECT CASE     
 WHEN YearsAtCompany BETWEEN 0 AND 2 THEN '0-2 Years'     
 WHEN YearsAtCompany BETWEEN 3 AND 5 THEN '3-5 Years'     
@@ -71,7 +78,8 @@ FROM employees
 GROUP BY Tenure_Group  
 ORDER BY MIN(YearsAtCompany);
 
--- Source: PDF page 25
+-- Section: Monthly Income Group-wise Workforce Distribution
+-- Documentation Reference: PDF Page 25
 SELECT CASE     
 WHEN MonthlyIncome < 5000 THEN 'Lower'     
 WHEN MonthlyIncome BETWEEN 5000 AND 9999 THEN 'Lower-Middle'     
@@ -83,4 +91,3 @@ FROM employees), 2) AS Workforce_Percentage
 FROM employees  
 GROUP BY Income_Group  
 ORDER BY MIN(MonthlyIncome);
-

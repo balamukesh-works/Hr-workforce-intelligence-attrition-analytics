@@ -1,3 +1,4 @@
+
 -- HR Workforce Intelligence & Attrition Analytics
 -- SQL transcribed from the final project documentation PDF.
 -- Review and test each statement in MySQL Workbench before committing.
@@ -6,7 +7,8 @@
 
 USE hr_analytics;
 
--- Source: PDF page 10
+-- Section: Missing Values (NULL) Validation
+-- Documentation Reference: PDF Page 10
 SELECT COUNT(*) AS Total_Records, 
     SUM(Age IS NULL) AS Age_Null, 
     SUM(Attrition IS NULL) AS Attrition_Null, 
@@ -46,7 +48,8 @@ SELECT COUNT(*) AS Total_Records,
     SUM(YearsWithCurrManager IS NULL) AS YearsWithCurrManager_Null 
  FROM employees;
 
--- Source: PDF page 12
+-- Section: Duplicate Record Validation
+-- Documentation Reference: PDF Page 12
 SELECT COUNT(*) AS Duplicate_Groups 
 FROM ( 
     SELECT * 
@@ -63,7 +66,8 @@ FROM (
         YearsWithCurrManager 
     HAVING COUNT(*) > 1) AS Duplicate_Records;
 
--- Source: PDF page 13
+-- Section: Domain and Range Validation
+-- Documentation Reference: PDF Page 13
 SELECT 
     SUM(CASE WHEN PerformanceRating NOT BETWEEN 3 AND 4 
         THEN 1 ELSE 0 END) AS Invalid_PerformanceRating, 
@@ -76,7 +80,8 @@ SELECT
         THEN 1 ELSE 0 END) AS Invalid_StockOptionLevel 
 FROM employees;
 
--- Source: PDF page 15
+-- Section: Constant Column Validation
+-- Documentation Reference: PDF Page 15
 SELECT 
     COUNT(*) AS Total_Records, 
     COUNT(DISTINCT EmployeeCount) AS EmployeeCount_Distinct_Values, 
@@ -84,4 +89,3 @@ SELECT
     MIN(EmployeeCount) AS EmployeeCount_Value, 
     MIN(StandardHours) AS StandardHours_Value 
 FROM employees;
-

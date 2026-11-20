@@ -1,3 +1,4 @@
+
 -- HR Workforce Intelligence & Attrition Analytics
 -- SQL transcribed from the final project documentation PDF.
 -- Review and test each statement in MySQL Workbench before committing.
@@ -6,7 +7,8 @@
 
 USE hr_analytics;
 
--- Source: PDF page 46
+-- Section: Employee Indicator Score Analysis
+-- Documentation Reference: PDF Page 46
 SELECT Indicator_Score, COUNT(*) AS Total_Employees, 
    SUM(CASE WHEN Attrition = 'Yes' THEN 1 ELSE 0 END ) AS Exited_Employees, 
    ROUND(SUM(CASE WHEN Attrition = 'Yes' THEN 1 ELSE 0 END ) * 100.0 / COUNT(*), 2 
@@ -22,7 +24,8 @@ FROM (SELECT EmployeeNumber, Attrition,
 GROUP BY Indicator_Score 
 ORDER BY Indicator_Score;
 
--- Source: PDF page 47
+-- Section: Risk Segment-wise Attrition Analysis
+-- Documentation Reference: PDF Page 47
 SELECT Risk_Segment,COUNT(*) AS Total_Employees, 
     SUM(CASE WHEN Attrition = 'Yes' THEN 1 ELSE 0 END) As Exited_Employees, 
     ROUND(SUM(CASE WHEN Attrition = 'Yes' THEN 1 ELSE 0 END)* 100.0 / COUNT(*), 2) 
@@ -71,7 +74,8 @@ WHEN 'Multiple Indicators' THEN 3
  
 END;
 
--- Source: PDF page 49
+-- Section: Department-wise Average Tenure of Exited Employees
+-- Documentation Reference: PDF Page 49
 SELECT e.Department,COUNT(*) AS Exited_Employees, 
    ROUND(AVG(DATEDIFF(x.ExitDate, h.HireDate)), 0) AS Avg_Tenure_Days, 
    ROUND(AVG(DATEDIFF(x.ExitDate, h.HireDate)) / 365.25, 2) AS Avg_Tenure_Years 
@@ -84,7 +88,8 @@ WHERE e.Attrition = 'Yes'
 GROUP BY e.Department 
 ORDER BY Avg_Tenure_Days DESC;
 
--- Source: PDF page 50
+-- Section: Exit Reason Distribution
+-- Documentation Reference: PDF Page 50
 SELECT ExitReason,COUNT(*) AS Exited_Employees, 
  
 ROUND(COUNT(*) * 100.0 /  
@@ -93,7 +98,8 @@ FROM employee_exit_details
  GROUP BY ExitReason 
 ORDER BY Exited_Employees DESC;
 
--- Source: PDF page 73
+-- Section: Risk Segment-wise Attrition Summary
+-- Documentation Reference: PDF Page 73
 SELECT CASE 
         WHEN Indicator_Score = 0 THEN 'Low Indicators' 
         WHEN Indicator_Score = 1 THEN 'Moderate Indicators' 
@@ -119,7 +125,8 @@ ORDER BY
         WHEN 'Multiple Indicators' THEN 3 
     END;
 
--- Source: PDF page 75
+-- Section: Comparative Attrition Analysis Across Multiple Dimensions
+-- Documentation Reference: PDF Page 75
 WITH Employee_Indicators AS (
     SELECT
         EmployeeNumber,

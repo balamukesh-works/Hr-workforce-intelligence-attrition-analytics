@@ -1,3 +1,4 @@
+
 -- HR Workforce Intelligence & Attrition Analytics
 -- SQL transcribed from the final project documentation PDF.
 -- Review and test each statement in MySQL Workbench before committing.
@@ -6,7 +7,8 @@
 
 USE hr_analytics;
 
--- Source: PDF page 53
+-- Section: Workforce Summary View Creation
+-- Documentation Reference: PDF Page 53
 CREATE VIEW vw_workforce_summary AS 
 SELECT COUNT(*) AS Total_Employees, 
     SUM(CASE WHEN Attrition = 'Yes' THEN 1 ELSE 0 END) AS Exited_Employees, 
@@ -15,10 +17,12 @@ SELECT COUNT(*) AS Total_Employees,
 Overall_Attrition_Rate 
 FROM employees;
 
--- Source: PDF page 53
+-- Section: Workforce Summary View Retrieval
+-- Documentation Reference: PDF Page 53
 SELECT * FROM vw_workforce_summary;
 
--- Source: PDF page 54
+-- Section: Department-wise Attrition View Creation
+-- Documentation Reference: PDF Page 54
 CREATE VIEW vw_department_attrition AS 
 SELECT Department,COUNT(*) AS Total_Employees, 
      SUM(CASE WHEN Attrition = 'Yes' THEN 1 ELSE 0 END) AS Exited_Employees, 
@@ -28,10 +32,12 @@ COUNT(*),2)     AS Attrition_Rate
 FROM employees 
 GROUP BY Department;
 
--- Source: PDF page 54
+-- Section: Department Attrition View Retrieval
+-- Documentation Reference: PDF Page 54
 SELECT * FROM vw_department_attrition;
 
--- Source: PDF page 55
+-- Section: Employee Segmentation View Creation
+-- Documentation Reference: PDF Page 55
 CREATE VIEW vw_employee_segmentation AS 
  SELECT EmployeeNumber,Department,JobRole,Attrition, ( 
      CASE WHEN OverTime = 'Yes' THEN 1 ELSE 0 END + 
@@ -60,18 +66,21 @@ CREATE VIEW vw_employee_segmentation AS
     END AS Employee_Segment 
 FROM employees;
 
--- Source: PDF page 56
+-- Section: Employee Segmentation View Retrieval
+-- Documentation Reference: PDF Page 56
 SELECT * 
 FROM vw_employee_segmentation;
 
--- Source: PDF page 56
+-- Section: Employee Segment-wise Attrition Analysis
+-- Documentation Reference: PDF Page 56
 SELECT Employee_Segment,COUNT(*) AS Total_Employees, 
 SUM(CASE WHEN Attrition = 'Yes' THEN 1 ELSE 0 END) AS Exited_Employees, 
 ROUND(    SUM(CASE WHEN Attrition = 'Yes' THEN 1 ELSE 0 END) * 100.0 /  
 COUNT(*), 2) AS Attrition_Rate 
 FROM vw_employee_segmentation GROUP BY Employee_Segment;
 
--- Source: PDF page 57
+-- Section: Workforce Summary Stored Procedure Creation
+-- Documentation Reference: PDF Page 57
 DELIMITER // 
  
 CREATE PROCEDURE sp_workforce_summary() 
@@ -86,10 +95,12 @@ END //
 
 DELIMITER ;
 
--- Source: PDF page 58
+-- Section: Workforce Summary Stored Procedure Execution
+-- Documentation Reference: PDF Page 58
 CALL sp_workforce_summary();
 
--- Source: PDF page 59
+-- Section: Department Attrition Stored Procedure Creation
+-- Documentation Reference: PDF Page 59
 DELIMITER // 
  
 CREATE PROCEDURE sp_department_attrition(IN p_department VARCHAR(100)) 
@@ -106,12 +117,14 @@ END //
  
 DELIMITER ;
 
--- Source: PDF page 59
+-- Section: Department Attrition Stored Procedure Execution - Sales
+-- Documentation Reference: PDF Page 59
 CALL sp_department_attrition('Sales');
 
--- Source: PDF page 59
+-- Section: Department Attrition Stored Procedure Execution - Human Resources
+-- Documentation Reference: PDF Page 59
 CALL sp_department_attrition('Human Resources');
 
--- Source: PDF page 59
+-- Section: Department Attrition Stored Procedure Execution - Research & Development
+-- Documentation Reference: PDF Page 59
 CALL sp_department_attrition('Research & Development');
-

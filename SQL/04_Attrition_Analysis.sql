@@ -1,3 +1,4 @@
+
 -- HR Workforce Intelligence & Attrition Analytics
 -- SQL transcribed from the final project documentation PDF.
 -- Review and test each statement in MySQL Workbench before committing.
@@ -5,6 +6,12 @@
 -- No missing query has been invented in this extraction.
 
 USE hr_analytics;
+
+
+-- ============================================================
+-- SECTION 1: AGE GROUP-WISE ATTRITION ANALYSIS
+-- Documentation Reference: PDF Page 27
+-- ============================================================
 
 -- Source: PDF page 27
 SELECT CASE  
@@ -28,6 +35,12 @@ ORDER BY
         WHEN '55+' THEN 5 
     END;
 
+
+-- ============================================================
+-- SECTION 2: DEPARTMENT-WISE ATTRITION ANALYSIS
+-- Documentation Reference: PDF Page 28
+-- ============================================================
+
 -- Source: PDF page 28
 SELECT Department, 
     COUNT(*) AS Total_Employees, 
@@ -38,6 +51,12 @@ FROM employees
 GROUP BY Department 
 ORDER BY Attrition_Rate DESC;
 
+
+-- ============================================================
+-- SECTION 3: JOB ROLE-WISE ATTRITION ANALYSIS
+-- Documentation Reference: PDF Page 29
+-- ============================================================
+
 -- Source: PDF page 29
 SELECT JobRole,COUNT(*) AS Total_Employees, 
     SUM(CASE WHEN Attrition = 'Yes' THEN 1 ELSE 0 END) AS Exited_Employees, 
@@ -46,6 +65,12 @@ SELECT JobRole,COUNT(*) AS Total_Employees,
 FROM employees 
 GROUP BY JobRole 
 ORDER BY Attrition_Rate DESC;
+
+
+-- ============================================================
+-- SECTION 4: OVERTIME-WISE ATTRITION ANALYSIS
+-- Documentation Reference: PDF Page 30
+-- ============================================================
 
 -- Source: PDF page 30
 SELECT OverTime,COUNT(*) AS Total_Employees, 
@@ -56,6 +81,12 @@ FROM employees
 GROUP BY OverTime 
 ORDER BY Attrition_Rate DESC;
 
+
+-- ============================================================
+-- SECTION 5: JOB SATISFACTION-WISE ATTRITION ANALYSIS
+-- Documentation Reference: PDF Page 32
+-- ============================================================
+
 -- Source: PDF page 32
 SELECT 
     JobSatisfaction, COUNT(*) AS Total_Employees, 
@@ -65,6 +96,12 @@ SELECT
 FROM employees 
 GROUP BY JobSatisfaction 
 ORDER BY JobSatisfaction;
+
+
+-- ============================================================
+-- SECTION 6: YEARS AT COMPANY-WISE ATTRITION ANALYSIS
+-- Documentation Reference: PDF Page 34
+-- ============================================================
 
 -- Source: PDF page 34
 SELECT 
@@ -83,6 +120,12 @@ FROM employees
 GROUP BY Tenure_Group 
 ORDER BY MIN(YearsAtCompany);
 
+
+-- ============================================================
+-- SECTION 7: YEARS WITH CURRENT MANAGER-WISE ATTRITION ANALYSIS
+-- Documentation Reference: PDF Page 36
+-- ============================================================
+
 -- Source: PDF page 36
 SELECT 
     CASE 
@@ -100,6 +143,12 @@ FROM employees
 GROUP BY Manager_Tenure_Group 
 ORDER BY MIN(YearsWithCurrManager);
 
+
+-- ============================================================
+-- SECTION 8: SALARY BAND-WISE ATTRITION ANALYSIS
+-- Documentation Reference: PDF Page 38
+-- ============================================================
+
 -- Source: PDF page 38
 SELECT 
     CASE 
@@ -114,6 +163,12 @@ SELECT
 FROM employees 
 GROUP BY Salary_Band 
 ORDER BY MIN(MonthlyIncome);
+
+
+-- ============================================================
+-- SECTION 9: DEPARTMENT-WISE SALARY ANALYSIS
+-- Documentation Reference: PDF Page 41
+-- ============================================================
 
 -- Source: PDF page 41
 SELECT  Department,  Total_Employees, Average_Monthly_Income,Minimum_Income,   
@@ -135,6 +190,12 @@ FROM (
         MAX(MonthlyIncome), 4 
     FROM employees) AS Department_Summary 
 ORDER BY Sort_Order;
+
+
+-- ============================================================
+-- SECTION 10: JOB LEVEL AND SALARY BAND-WISE ATTRITION ANALYSIS
+-- Documentation Reference: PDF Page 43
+-- ============================================================
 
 -- Source: PDF page 43
 SELECT Job_Level, Salary_Band, Total_Employees, Exited_Employees, Attrition_Rate 
@@ -158,4 +219,3 @@ SUM(CASE WHEN Attrition = 'Yes' THEN 1 ELSE 0 END),
 ROUND(SUM(CASE WHEN Attrition = 'Yes' THEN 1 ELSE 0 END) * 100.0 / COUNT(*),2) 
  
 FROM employees) AS Salary_Band_Analysis ;
-
