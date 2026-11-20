@@ -8,7 +8,7 @@ A SQL-based workforce analytics project using MySQL to investigate employee attr
 
 This project focuses on analyzing employee workforce data and identifying patterns associated with employee attrition using MySQL.
 
-The analysis uses the HR Analytics Employee Attrition & Performance dataset, containing 1,470 employee records and 35 original attributes.
+The analysis uses the HR Analytics Employee Attrition & Performance dataset, containing 1,470 employee records and 35 attributes.
 
 The project demonstrates practical SQL skills across data validation, relational database design, workforce analysis, and advanced analytical querying.
 
