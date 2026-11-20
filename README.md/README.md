@@ -3,7 +3,7 @@
 ## Project Overview
 This project focuses on analyzing employee workforce data and identifying patterns associated with employee attrition using **MySQL**. It demonstrates how SQL can be used to transform workforce data into meaningful insights that support HR decision-making.
 
-The project uses the IBM HR Analytics Employee Attrition & Performance dataset, containing 1,470 employee records and 35 original attributes.
+The project uses the HR Analytics Employee Attrition & Performance dataset, containing 1,470 employee records and 35 attributes.
 
 ## Business Problem
 Employee attrition can affect workforce stability, productivity, and recruitment costs. This project explores workforce characteristics and identifies employee groups with comparatively higher attrition rates to help HR teams understand where attention may be needed.
@@ -24,11 +24,10 @@ Employee attrition can affect workforce stability, productivity, and recruitment
 ## Database Structure
 The project uses three tables:
 
-- `employees` – Original IBM employee dataset.
+- `employees` – employee dataset.
 - `employee_hire_details` – Supporting hire-date information.
 - `employee_exit_details` – Supporting exit-date and exit-reason information.
 
-**Note:** The hire dates, exit dates, and exit reasons in the supporting tables are synthetically generated for analytical and relational SQL practice. They are not original IBM dataset facts.
 
 ## SQL Concepts Demonstrated
 - Data inspection and validation
@@ -67,7 +66,7 @@ These findings describe patterns in the dataset and should not be interpreted as
 
 The original dataset contains fictional employee data created by data scientists and includes 1,470 employee records with 35 columns.
 
-**Additional Data:** The `employee_hire_details` and `employee_exit_details` tables were synthetically created for this project to support relational analysis and SQL joins. They are not part of the original dataset.
+**Additional Data:** The `employee_hire_details` and `employee_exit_details` tables were created for this project to support relational analysis and SQL joins. They are not part of the dataset.
 
 ## Project Documentation
 The detailed project report is available in the `Documentation` folder.
